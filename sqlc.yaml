@@ -1,0 +1,22 @@
+version: "2"
+cloud:
+    organization: ""
+    project: ""
+    hostname: ""
+sql:
+- schema:  "./db/migration/"
+  queries: "./db/query/"
+  engine:  postgresql
+  database:
+    uri: postgresql://root:secret@localhost:3000/simple_bank
+  gen:
+    go:
+      package: db
+      out: "./db/sqlc/"
+overrides:
+    go: null
+plugins: []
+rules: []
+options:
+      package: authors
+      emit_json_tags: true
