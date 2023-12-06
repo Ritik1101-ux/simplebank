@@ -39,5 +39,5 @@ jobs:
     - name: Run Migrations
       run : make migrateup
 
-    - name: Test
+    - name: Test1
       run: make test
