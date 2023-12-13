@@ -2,14 +2,16 @@ package db
 
 import (
 	"context"
+	"testing"
 	"github.com/Ritik1101-ux/simplebank/utils"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func CreateAccount(t *testing.T) Account {
+
+	user:=CreateRandomUser(t)
 	arg := CreateAccountParams{
-		Owner:    utils.RandomOwner(),
+		Owner:    user.Username,
 		Balance:  utils.RandomMoney(),
 		Currency: utils.RandomCurrency(),
 	}

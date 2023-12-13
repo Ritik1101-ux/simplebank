@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-type Store interface{
+type Store interface {
 	AddAccountBalance(ctx context.Context, arg AddAccountBalanceParams) (Account, error)
 	CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error)
 	CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error)
@@ -20,6 +20,8 @@ type Store interface{
 	ListEntries(ctx context.Context, arg ListEntriesParams) ([]Entry, error)
 	ListTransfers(ctx context.Context, arg ListTransfersParams) ([]Transfer, error)
 	UpdateAccount(ctx context.Context, arg UpdateAccountParams) (Account, error)
+	GetUser(ctx context.Context, username string) (User, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
 }
 
@@ -35,7 +37,7 @@ func NewStore(db *sql.DB) Store {
 	}
 }
 
-//ExectTx Executes a function within a database transactions
+// ExectTx Executes a function within a database transactions
 func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) error {
 	tx, err := store.db.BeginTx(ctx, nil)
 
@@ -71,8 +73,8 @@ type TransferTxResult struct {
 
 var txKey = struct{}{}
 
-//TransferTx performs a money Transfer from one account to the other
-//IT Creates a transfer record, add account and update account balance within a single database transaction
+// TransferTx performs a money Transfer from one account to the other
+// IT Creates a transfer record, add account and update account balance within a single database transaction
 func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
