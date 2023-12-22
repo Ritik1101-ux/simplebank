@@ -6,7 +6,6 @@ package db
 
 import (
 	"context"
-	
 )
 
 type Querier interface {
